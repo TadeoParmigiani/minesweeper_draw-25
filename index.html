@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>MinesWeeper</title>
+    <title>Buscaminas</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <h1>Buscaminas</h1>
-    <div class="tablero"></div>
+
+    <!-- Formulario para iniciar el juego -->
+    <form id="formulario-configuracion" class="formulario">
+        <label for="nombreJugador">Nombre: </label>
+            <input type="text" id="nombreJugador" required placeholder="Tu nombre" />
+
+        <label for="dificultad">Dificultad:</label>
+            <select name="dificultad" required>
+                <option value="facil">Fácil (8x8 - 10 minas)</option>
+                <option value="media">Media (12x12 - 25 minas)</option>
+                <option value="dificil">Difícil (16x16 - 40 minas)</option>
+            </select>
+
+        <button type="submit">¡Empezar juego!</button>
+    </form>
+
+    <!-- Contenedor del tablero -->
+    <div id="tablero" class="tablero" hidden></div>
 
     <script src="app.js"></script>
 </body>
-
 </html>
