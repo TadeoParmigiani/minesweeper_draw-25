@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Buscaminas</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <h1>Buscaminas</h1>
-
+    <!-- Panel de info -->
+    <div class="panel-info" id="panel-info" hidden>
+    <strong id="jugadorLabel"></strong>
+    <span id="temporizador">00:00</span>
+    </div>
     <!-- Formulario para iniciar el juego -->
     <form id="formulario-configuracion" class="formulario">
         <label for="nombreJugador">Nombre: </label>
@@ -25,7 +29,8 @@
 
     <!-- Contenedor del tablero -->
     <div id="tablero" class="tablero" hidden></div>
-
-    <script src="app.js"></script>
+        <!-- Botón Reiniciar-->
+    <button class="btn-reiniciar" id="btn-reiniciar" type="button" hidden>Reiniciar</button>
+    <script src="./js/app.js"></script>
 </body>
 </html>

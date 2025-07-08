@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     var formulario = document.getElementById("formulario-configuracion");
     var tablero = document.getElementById("tablero");
     var tam_casilla = 50; 
+    var temporizador = document.getElementById("")
+    var btn_reiniciar =  document.getElementById("btn-reiniciar")
+    var panel =  document.getElementById("panel-info")
     formulario.addEventListener("submit", (e) => {
         e.preventDefault();
 
@@ -36,6 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
         iniciarJuego(filas, columnas, minas, nombre);
         formulario.style.display = "none";
         tablero.hidden = false;
+        panel.style.display = "flex"
+        btn_reiniciar.style.display = "block"
     });
 
     function iniciarJuego(filas, columnas, minas, jugador) {

@@ -1,0 +1,87 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 16px;          
+}
+
+h1 {
+    margin-top: 8px;        
+}
+.panel-info {
+  display: none;
+  justify-content: center;
+  gap: 24px;       
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+#temporizador {
+  font-weight: bold;
+}
+
+/* Formulario */
+.formulario {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 16px;              
+    margin-bottom: 24px;    
+    padding: 16px;          
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.formulario label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    gap: 5px;               
+}
+
+.formulario input,
+.formulario select,
+.formulario button {
+    padding: 8px;           
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;        
+}
+
+.formulario button {
+    background-color: #62bee9;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+/* Tablero */
+.tablero {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.celda {
+    width: 50px;
+    height: 50px;
+    background-color: #62bee9;
+    border: 1px solid #120738;
+    box-sizing: border-box;
+}
+
+.btn-reiniciar {
+  margin: 16px auto 0;      /* espacio arriba, centrado horizontal */
+  display: none;           /* para que respete el margin auto */
+  background: #ca3d3d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.btn-reiniciar:hover { opacity: .85; }
