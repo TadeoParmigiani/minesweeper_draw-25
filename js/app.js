@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const tam_casilla = 50;
     const btn_reiniciar = document.getElementById("btn-reiniciar");
     const panel = document.getElementById("panel-info");
+    const temporizadorSpan = document.getElementById("temporizador");
+
 
     let celdas = [];
     let minas = [];
@@ -12,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let celdasReveladas = 0;
     let juegoTerminado = false;
     let columnas = 0;
+
+    // variables del temporizador
+    let intervaloTemporizador;
+    let segundos = 0;
+    let temporizadorActivo = false;
 
     formulario.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -50,6 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
         celdasReveladas = 0;
         juegoTerminado = false;
 
+        // Reiniciar temporizador
+        detenerTemporizador();
+        segundos = 0;
+        temporizadorActivo = false;
+        temporizadorSpan.textContent = "00:00";
+
         // Crear celdas
         for (let i = 0; i < totalCeldas; i++) {
             const celda = document.createElement("div");
@@ -76,19 +89,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function revelarCelda(e) {
-        if (juegoTerminado) return;
-
-        const celda = e.target;
-        const index = parseInt(celda.dataset.index);
-        if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
-
-        revelar(index);
-
-        if (celdasReveladas === totalCeldas - minas.length) {
-            terminarJuego(true);
-        }
+    // Temporizador
+    function iniciarTemporizador() {
+        intervaloTemporizador = setInterval(() => {
+            segundos++;
+            const minutos = String(Math.floor(segundos / 60)).padStart(2, '0');
+            const seg = String(segundos % 60).padStart(2, '0');
+            temporizadorSpan.textContent = `${minutos}:${seg}`;
+        }, 1000);
     }
+
+    function detenerTemporizador() {
+        clearInterval(intervaloTemporizador);
+    }
+
+
+function revelarCelda(e) {
+    if (juegoTerminado) return;
+    const celda = e.target;
+    const index = parseInt(celda.dataset.index);
+
+    if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;  
+    
+    if (!temporizadorActivo) {
+        temporizadorActivo = true;
+        iniciarTemporizador();
+    }
+    revelar(index);
+    
+    if (celdasReveladas === totalCeldas - minas.length) {
+        terminarJuego(true);
+    }
+}
+
 
     function revelar(index) {
         const celda = celdas[index];
@@ -125,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (minasAlrededor > 0) {
                     celda.textContent = minasAlrededor;
                 } else {
-                    expandirDesde(vecino); 
+                    expandirDesde(vecino);
                 }
             }
         }
@@ -179,6 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function terminarJuego(gano) {
         juegoTerminado = true;
+
+        detenerTemporizador();
+        
         celdas.forEach((celda) => {
             if (celda.dataset.mina === "true") {
                 celda.textContent = "💣";
@@ -192,6 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     btn_reiniciar.addEventListener("click", () => {
-        location.reload(); 
+        location.reload();
     });
 });
