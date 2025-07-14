@@ -15,6 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let juegoTerminado = false;
     let columnas = 0;
 
+    //variables del contador de minas restantes
+    let banderasColocadas = 0;
+    let totalMinasPartida = 0;
+    const contadorBanderasSpan = document.getElementById("contador-banderas");
+
     // variables del temporizador
     let intervaloTemporizador;
     let segundos = 0;
@@ -56,6 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
         minas = [];
         celdasReveladas = 0;
         juegoTerminado = false;
+
+        banderasColocadas = 0;
+        totalMinasPartida = totalMinas;
+        contadorBanderasSpan.textContent = `Minas restantes: ${totalMinasPartida - banderasColocadas}`;
 
         // Reiniciar temporizador
         detenerTemporizador();
@@ -104,23 +113,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-function revelarCelda(e) {
-    if (juegoTerminado) return;
-    const celda = e.target;
-    const index = parseInt(celda.dataset.index);
+    function revelarCelda(e) {
+        if (juegoTerminado) return;
+        const celda = e.target;
+        const index = parseInt(celda.dataset.index);
 
-    if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;  
-    
-    if (!temporizadorActivo) {
-        temporizadorActivo = true;
-        iniciarTemporizador();
+        if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
+
+        if (!temporizadorActivo) {
+            temporizadorActivo = true;
+            iniciarTemporizador();
+        }
+        revelar(index);
+
+        if (celdasReveladas === totalCeldas - minas.length) {
+            terminarJuego(true);
+        }
     }
-    revelar(index);
-    
-    if (celdasReveladas === totalCeldas - minas.length) {
-        terminarJuego(true);
-    }
-}
 
 
     function revelar(index) {
@@ -174,10 +183,15 @@ function revelarCelda(e) {
         if (celda.dataset.bandera === "false") {
             celda.dataset.bandera = "true";
             celda.textContent = "🚩";
+            banderasColocadas++;
         } else {
             celda.dataset.bandera = "false";
             celda.textContent = "";
+            banderasColocadas--;
         }
+
+        let minasRestantes = totalMinasPartida - banderasColocadas;
+        contadorBanderasSpan.textContent = `Minas restantes: ${minasRestantes}`;
     }
 
     function contarMinasCercanas(index) {
@@ -214,7 +228,7 @@ function revelarCelda(e) {
         juegoTerminado = true;
 
         detenerTemporizador();
-        
+
         celdas.forEach((celda) => {
             if (celda.dataset.mina === "true") {
                 celda.textContent = "💣";
