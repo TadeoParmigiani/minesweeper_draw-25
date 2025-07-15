@@ -62,7 +62,7 @@ h1 {
 
 /* Tablero */
 .tablero {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     margin: auto;
 }
@@ -76,8 +76,8 @@ h1 {
 }
 
 .btn-reiniciar {
-  margin: 16px auto 0;      /* espacio arriba, centrado horizontal */
-  display: none;           /* para que respete el margin auto */
+  margin: 16px auto 0;     
+  display: none;           
   background: #ca3d3d;
   color: #fff;
   border: none;
@@ -87,7 +87,7 @@ h1 {
   cursor: pointer;
   transition: opacity .2s;
 }
-.btn-reiniciar:hover { opacity: .85; }
+
 
 /* Modal */
 .modal {

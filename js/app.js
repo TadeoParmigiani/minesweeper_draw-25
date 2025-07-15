@@ -1,6 +1,6 @@
 'use strict';
 
-document.addEventListener("DOMContentLoaded", function() {
+    
     var formulario = document.getElementById("formulario-configuracion");
     var tablero = document.getElementById("tablero");
     var tam_casilla = 50;
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var banderasColocadas = 0;
     var totalMinasPartida = 0;
 
-    // Variables para reiniciar sin recargar
+    // Variables para reiniciar
     var filasActuales = 0;
     var columnasActuales = 0;
     var minasActuales = 0;
@@ -39,23 +39,26 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        var filas;
-        var totalMinas;
+        var filas = 0
+        var totalMinas = 0
 
         if (dificultad === "facil") {
-            filas = columnas = 8;
+            filas = 8
+            columnas = 8;
             totalMinas = 10;
         } else if (dificultad === "media") {
-            filas = columnas = 12;
+            filas = 12
+            columnas = 12;
             totalMinas = 25;
         } else if (dificultad === "dificil") {
-            filas = columnas = 16;
+            filas = 16
+            columnas = 16;
             totalMinas = 40;
         }
 
         iniciarJuego(filas, columnas, totalMinas);
         formulario.style.display = "none";
-        tablero.hidden = false;
+        tablero.style.display = "flex";
         panel.style.display = "flex";
         btn_reiniciar.style.display = "block";
     });
@@ -278,4 +281,4 @@ function mostrarModal(mensaje) {
         clearInterval(intervaloTemporizador);
         intervaloTemporizador = null;
     }
-});
+
