@@ -1,47 +1,56 @@
 'use strict';
-document.addEventListener("DOMContentLoaded", () => {
-    const formulario = document.getElementById("formulario-configuracion");
-    const tablero = document.getElementById("tablero");
-    const tam_casilla = 50;
-    const btn_reiniciar = document.getElementById("btn-reiniciar");
-    const panel = document.getElementById("panel-info");
-    const temporizadorSpan = document.getElementById("temporizador");
 
+document.addEventListener("DOMContentLoaded", function() {
+    var formulario = document.getElementById("formulario-configuracion");
+    var tablero = document.getElementById("tablero");
+    var tam_casilla = 50;
+    var btn_reiniciar = document.getElementById("btn-reiniciar");
+    var panel = document.getElementById("panel-info");
+    var temporizador = document.getElementById("temporizador");
+    var contadorBanderas = document.getElementById("contador-banderas");
 
-    let celdas = [];
-    let minas = [];
-    let totalCeldas = 0;
-    let celdasReveladas = 0;
-    let juegoTerminado = false;
-    let columnas = 0;
+    var celdas = [];
+    var minas = [];
+    var totalCeldas = 0;
+    var celdasReveladas = 0;
+    var juegoTerminado = false;
+    var columnas = 0;
+    var banderasColocadas = 0;
+    var totalMinasPartida = 0;
 
-    //variables del contador de minas restantes
-    let banderasColocadas = 0;
-    let totalMinasPartida = 0;
-    const contadorBanderasSpan = document.getElementById("contador-banderas");
+    // Variables para reiniciar sin recargar
+    var filasActuales = 0;
+    var columnasActuales = 0;
+    var minasActuales = 0;
 
-    // variables del temporizador
-    let intervaloTemporizador;
-    let segundos = 0;
-    let temporizadorActivo = false;
+    // Temporizador
+    var intervaloTemporizador = null;
+    var segundos = 0;
+    var temporizadorActivo = false;
 
-    formulario.addEventListener("submit", (e) => {
-        e.preventDefault();
+    formulario.addEventListener("submit", function(eventoFormulario) {
+        eventoFormulario.preventDefault();
 
-        const nombre = formulario.nombreJugador.value.trim();
-        const dificultad = formulario.dificultad.value;
+        var nombre = formulario.nombreJugador.value.trim();
+        var dificultad = formulario.dificultad.value;
 
         if (nombre.length < 3) {
             alert("El nombre debe tener al menos 3 letras.");
             return;
         }
 
-        let filas, totalMinas;
+        var filas;
+        var totalMinas;
 
-        switch (dificultad) {
-            case "facil": filas = columnas = 8; totalMinas = 10; break;
-            case "media": filas = columnas = 12; totalMinas = 25; break;
-            case "dificil": filas = columnas = 16; totalMinas = 40; break;
+        if (dificultad === "facil") {
+            filas = columnas = 8;
+            totalMinas = 10;
+        } else if (dificultad === "media") {
+            filas = columnas = 12;
+            totalMinas = 25;
+        } else if (dificultad === "dificil") {
+            filas = columnas = 16;
+            totalMinas = 40;
         }
 
         iniciarJuego(filas, columnas, totalMinas);
@@ -54,69 +63,56 @@ document.addEventListener("DOMContentLoaded", () => {
     function iniciarJuego(filas, columnasParam, totalMinas) {
         tablero.innerHTML = "";
         columnas = columnasParam;
-        const filasTotal = filas;
         totalCeldas = filas * columnas;
-        tablero.style.width = `${columnas * tam_casilla}px`;
+        tablero.style.width = (columnas * tam_casilla) + "px";
         celdas = [];
         minas = [];
         celdasReveladas = 0;
         juegoTerminado = false;
 
+        // Guardar config actual
+        filasActuales = filas;
+        columnasActuales = columnasParam;
+        minasActuales = totalMinas;
+
         banderasColocadas = 0;
         totalMinasPartida = totalMinas;
-        contadorBanderasSpan.textContent = `Minas restantes: ${totalMinasPartida - banderasColocadas}`;
+        contadorBanderas.textContent = "Minas restantes: " + (totalMinasPartida - banderasColocadas);
 
-        // Reiniciar temporizador
         detenerTemporizador();
         segundos = 0;
         temporizadorActivo = false;
-        temporizadorSpan.textContent = "00:00";
+        temporizador.textContent = "00:00";
 
-        // Crear celdas
-        for (let i = 0; i < totalCeldas; i++) {
-            const celda = document.createElement("div");
+        for (var i = 0; i < totalCeldas; i++) {
+            var celda = document.createElement("div");
             celda.classList.add("celda");
             celda.dataset.index = i;
             celda.dataset.revelada = "false";
             celda.dataset.bandera = "false";
             celda.dataset.mina = "false";
-            celda.addEventListener("click", revelarCelda);
-            celda.addEventListener("contextmenu", colocarBandera);
+            celda.addEventListener("click", revelarCeldaConClickIzquierdo);
+            celda.addEventListener("contextmenu", colocarBanderaConClickDerecho);
             tablero.appendChild(celda);
             celdas.push(celda);
         }
 
-        // Colocar minas aleatoriamente
-        let colocadas = 0;
+        var colocadas = 0;
         while (colocadas < totalMinas) {
-            let i = Math.floor(Math.random() * totalCeldas);
-            if (celdas[i].dataset.mina === "false") {
-                celdas[i].dataset.mina = "true";
-                minas.push(i);
+            var pos = Math.floor(Math.random() * totalCeldas);
+            if (celdas[pos].dataset.mina === "false") {
+                celdas[pos].dataset.mina = "true";
+                minas.push(pos);
                 colocadas++;
             }
         }
     }
 
-    // Temporizador
-    function iniciarTemporizador() {
-        intervaloTemporizador = setInterval(() => {
-            segundos++;
-            const minutos = String(Math.floor(segundos / 60)).padStart(2, '0');
-            const seg = String(segundos % 60).padStart(2, '0');
-            temporizadorSpan.textContent = `${minutos}:${seg}`;
-        }, 1000);
-    }
-
-    function detenerTemporizador() {
-        clearInterval(intervaloTemporizador);
-    }
-
-
-    function revelarCelda(e) {
+    function revelarCeldaConClickIzquierdo(eventoClick) {
         if (juegoTerminado) return;
-        const celda = e.target;
-        const index = parseInt(celda.dataset.index);
+
+        var celda = eventoClick.target;
+        var index = parseInt(celda.dataset.index);
 
         if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
 
@@ -124,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             temporizadorActivo = true;
             iniciarTemporizador();
         }
+
         revelar(index);
 
         if (celdasReveladas === totalCeldas - minas.length) {
@@ -131,9 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
     function revelar(index) {
-        const celda = celdas[index];
+        var celda = celdas[index];
         if (!celda || celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
 
         celda.dataset.revelada = "true";
@@ -147,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const minasCerca = contarMinasCercanas(index);
+        var minasCerca = contarMinasCercanas(index);
         if (minasCerca > 0) {
             celda.textContent = minasCerca;
         } else {
@@ -156,11 +152,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function expandirDesde(index) {
-        const vecinos = obtenerVecinos(index);
-        for (const vecino of vecinos) {
-            const celda = celdas[vecino];
+        var vecinos = obtenerVecinos(index);
+        for (var i = 0; i < vecinos.length; i++) {
+            var vecino = vecinos[i];
+            var celda = celdas[vecino];
             if (celda.dataset.revelada === "false" && celda.dataset.mina === "false") {
-                const minasAlrededor = contarMinasCercanas(vecino);
+                var minasAlrededor = contarMinasCercanas(vecino);
                 celda.dataset.revelada = "true";
                 celda.style.backgroundColor = "#d0eaff";
                 celdasReveladas++;
@@ -173,11 +170,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function colocarBandera(e) {
-        e.preventDefault();
+    function colocarBanderaConClickDerecho(eventoClickDerecho) {
+        eventoClickDerecho.preventDefault();
         if (juegoTerminado) return;
 
-        const celda = e.target;
+        var celda = eventoClickDerecho.target;
         if (celda.dataset.revelada === "true") return;
 
         if (celda.dataset.bandera === "false") {
@@ -190,15 +187,15 @@ document.addEventListener("DOMContentLoaded", () => {
             banderasColocadas--;
         }
 
-        let minasRestantes = totalMinasPartida - banderasColocadas;
-        contadorBanderasSpan.textContent = `Minas restantes: ${minasRestantes}`;
+        var minasRestantes = totalMinasPartida - banderasColocadas;
+        contadorBanderas.textContent = "Minas restantes: " + minasRestantes;
     }
 
     function contarMinasCercanas(index) {
-        const vecinos = obtenerVecinos(index);
-        let cantidad = 0;
-        for (const vecino of vecinos) {
-            if (celdas[vecino].dataset.mina === "true") {
+        var vecinos = obtenerVecinos(index);
+        var cantidad = 0;
+        for (var i = 0; i < vecinos.length; i++) {
+            if (celdas[vecinos[i]].dataset.mina === "true") {
                 cantidad++;
             }
         }
@@ -206,15 +203,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function obtenerVecinos(index) {
-        const fila = Math.floor(index / columnas);
-        const col = index % columnas;
-        const vecinos = [];
+        var fila = Math.floor(index / columnas);
+        var col = index % columnas;
+        var vecinos = [];
 
-        for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
+        for (var i = -1; i <= 1; i++) {
+            for (var j = -1; j <= 1; j++) {
                 if (i === 0 && j === 0) continue;
-                const nuevaFila = fila + i;
-                const nuevaCol = col + j;
+                var nuevaFila = fila + i;
+                var nuevaCol = col + j;
                 if (nuevaFila >= 0 && nuevaFila < totalCeldas / columnas &&
                     nuevaCol >= 0 && nuevaCol < columnas) {
                     vecinos.push(nuevaFila * columnas + nuevaCol);
@@ -224,24 +221,61 @@ document.addEventListener("DOMContentLoaded", () => {
         return vecinos;
     }
 
-    function terminarJuego(gano) {
-        juegoTerminado = true;
+function terminarJuego(gano) {
+    juegoTerminado = true;
+    detenerTemporizador();
 
-        detenerTemporizador();
-
-        celdas.forEach((celda) => {
-            if (celda.dataset.mina === "true") {
-                celda.textContent = "💣";
-                celda.style.backgroundColor = "red";
-            }
-        });
-
-        setTimeout(() => {
-            alert(gano ? "¡Ganaste! 🎉" : "¡Perdiste! 💥");
-        }, 100);//cambiar por modal
+    for (var i = 0; i < celdas.length; i++) {
+        if (celdas[i].dataset.mina === "true") {
+            celdas[i].textContent = "💣";
+            celdas[i].style.backgroundColor = "red";
+        }
     }
 
-    btn_reiniciar.addEventListener("click", () => {
-        location.reload();
+    mostrarModal(gano ? "¡Ganaste!" : "¡Perdiste!");
+}
+
+function mostrarModal(mensaje) {
+    var modal = document.getElementById("modal-fin-juego");
+    var texto = document.getElementById("mensaje-resultado");
+    var btnCerrar = document.getElementById("cerrar-modal");
+
+    texto.textContent = mensaje;
+    modal.style.display = "flex";
+
+    btnCerrar.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function(evento) {
+        if (evento.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
+
+    // Reiniciar 
+    btn_reiniciar.addEventListener("click", function() {
+        iniciarJuego(filasActuales, columnasActuales, minasActuales);
     });
+
+    // Temporizador
+    function iniciarTemporizador() {
+        intervaloTemporizador = setInterval(function() {
+            segundos++;
+            var minutos = Math.floor(segundos / 60);
+            var seg = segundos % 60;
+
+            if (minutos < 10) minutos = "0" + minutos;
+            if (seg < 10) seg = "0" + seg;
+
+            temporizador.textContent = minutos + ":" + seg;
+        }, 1000);
+    }
+
+    function detenerTemporizador() {
+        clearInterval(intervaloTemporizador);
+        intervaloTemporizador = null;
+    }
 });
