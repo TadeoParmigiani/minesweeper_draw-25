@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var minasCerca = contarMinasCercanas(index);
         if (minasCerca > 0) {
             celda.textContent = minasCerca;
+            celda.classList.add(`numero-${minasCerca}`);
         } else {
             expandirDesde(index);
         }
@@ -163,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 celdasReveladas++;
                 if (minasAlrededor > 0) {
                     celda.textContent = minasAlrededor;
+                    celda.classList.add(`numero-${minasAlrededor}`);
                 } else {
                     expandirDesde(vecino);
                 }
