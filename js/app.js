@@ -149,6 +149,7 @@
         var minasCerca = contarMinasCercanas(index);
         if (minasCerca > 0) {
             celda.textContent = minasCerca;
+            celda.classList.add(`numero-${minasCerca}`);
         } else {
             expandirDesde(index);
         }
@@ -166,6 +167,7 @@
                 celdasReveladas++;
                 if (minasAlrededor > 0) {
                     celda.textContent = minasAlrededor;
+                    celda.classList.add(`numero-${minasAlrededor}`);
                 } else {
                     expandirDesde(vecino);
                 }
