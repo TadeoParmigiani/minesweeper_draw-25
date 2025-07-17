@@ -6,21 +6,22 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <h1>Buscaminas</h1>
+    <h1>Buscaminas Jungla</h1>
     <!-- Panel de info -->
-    <div class="panel-info" id="panel-info" hidden>
-    <strong id="jugadorLabel"></strong>
-    <span id="tiempo">Tiempo:</span>
-    <span id="temporizador"></span>
-    <span id="contador-banderas"></span>
+    <div id="panel-info" hidden>
+        <strong id="jugadorLabel"></strong>
+        <span id="tiempo">Tiempo:</span>
+        <span id="temporizador"></span>
+        <span id="contador-banderas"></span>
     </div>
     <!-- Formulario para iniciar el juego -->
-    <form id="formulario-configuracion" class="formulario">
+    <form id="formulario-configuracion">
         <label for="nombreJugador">Nombre: </label>
-        <input type="text" id="nombreJugador" required placeholder="Tu nombre" />
-        
+        <input type="text" id="nombreJugador" placeholder="Tu nombre" />
+        <span id="error-nombre"></span>
 
-        <label for="dificultad">Dificultad:</label>
+
+        <label for="dificultad" >Dificultad:</label>
             <select name="dificultad" required>
                 <option value="facil">Fácil (8x8 - 10 minas)</option>
                 <option value="media">Media (12x12 - 25 minas)</option>
@@ -31,14 +32,14 @@
     </form>
 
     <!-- Contenedor del tablero -->
-    <div id="tablero" class="tablero" ></div>
+    <div id="tablero" ></div>
         <!-- Botón Reiniciar-->
-    <button class="btn-reiniciar" id="btn-reiniciar" type="button" hidden>Reiniciar</button>
+    <button id="btn-reiniciar" type="button" hidden>Reiniciar</button>
     <script src="./js/app.js"></script>
 
     <!-- Modal de fin de juego -->
 <div id="modal-fin-juego" class="modal">
-  <div class="modal-contenido">
+  <div id="modal-contenido" class="modal-contenido">
     <h2 id="mensaje-resultado"></h2>
     <button id="cerrar-modal">Cerrar</button>
   </div>

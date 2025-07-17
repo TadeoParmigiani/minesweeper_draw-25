@@ -1,6 +1,5 @@
 'use strict';
 
-    
     var formulario = document.getElementById("formulario-configuracion");
     var tablero = document.getElementById("tablero");
     var tam_casilla = 50;
@@ -33,10 +32,14 @@
 
         var nombre = formulario.nombreJugador.value.trim();
         var dificultad = formulario.dificultad.value;
+         var errorNombre = document.getElementById("error-nombre");
 
         if (nombre.length < 3) {
-            alert("El nombre debe tener al menos 3 letras.");
-            return;
+            errorNombre.textContent = "El nombre debe tener al menos 3 caracteres.";
+            errorNombre.style.display = "block";
+        return;
+        } else {
+        errorNombre.style.display = "none";
         }
 
         var filas = 0
@@ -136,11 +139,10 @@
         if (!celda || celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
 
         celda.dataset.revelada = "true";
-        celda.style.backgroundColor = "#d0eaff";
+        celda.classList.add("celda-revelada");
         celdasReveladas++;
 
         if (celda.dataset.mina === "true") {
-            celda.style.backgroundColor = "red";
             celda.textContent = "💣";
             terminarJuego(false);
             return;
@@ -163,7 +165,7 @@
             if (celda.dataset.revelada === "false" && celda.dataset.mina === "false") {
                 var minasAlrededor = contarMinasCercanas(vecino);
                 celda.dataset.revelada = "true";
-                celda.style.backgroundColor = "#d0eaff";
+                celda.classList.add("celda-revelada");
                 celdasReveladas++;
                 if (minasAlrededor > 0) {
                     celda.textContent = minasAlrededor;
@@ -184,7 +186,7 @@
 
         if (celda.dataset.bandera === "false") {
             celda.dataset.bandera = "true";
-            celda.textContent = "🚩";
+            celda.textContent = "🐒";
             banderasColocadas++;
         } else {
             celda.dataset.bandera = "false";
@@ -217,8 +219,7 @@
                 if (i === 0 && j === 0) continue;
                 var nuevaFila = fila + i;
                 var nuevaCol = col + j;
-                if (nuevaFila >= 0 && nuevaFila < totalCeldas / columnas &&
-                    nuevaCol >= 0 && nuevaCol < columnas) {
+                if (nuevaFila >= 0 && nuevaFila < totalCeldas / columnas && nuevaCol >= 0 && nuevaCol < columnas) {
                     vecinos.push(nuevaFila * columnas + nuevaCol);
                 }
             }
@@ -233,7 +234,6 @@ function terminarJuego(gano) {
     for (var i = 0; i < celdas.length; i++) {
         if (celdas[i].dataset.mina === "true") {
             celdas[i].textContent = "💣";
-            celdas[i].style.backgroundColor = "red";
         }
     }
 
@@ -250,12 +250,6 @@ function mostrarModal(mensaje) {
 
     btnCerrar.onclick = function() {
         modal.style.display = "none";
-    };
-
-    window.onclick = function(evento) {
-        if (evento.target === modal) {
-            modal.style.display = "none";
-        }
     };
 }
 
