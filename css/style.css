@@ -195,23 +195,21 @@ h1 {
     color: #2f4f4f;
 }
 
-
-#contactModal {
+#modalContacto {
     display: none;
     position: fixed;
     inset: 0;
-    background-color: #0a1e0acc;
+    background-color: #00000099;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-#contactModal.open {
+#modalContacto.abierto {
     display: flex;
 }
 
-/* Contenido del modal */
-.modal-content {
+#contenidoModal {
     background-color: #eaf9e0;
     padding: 40px 60px;
     border-radius: 10px;
@@ -223,15 +221,13 @@ h1 {
     position: relative;
 }
 
-
-.modal-content h2 {
+#contenidoModal h2 {
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: 600;
 }
 
-
-.modal-content label {
+#contenidoModal label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
@@ -240,9 +236,8 @@ h1 {
     color: #2e402c;
 }
 
-
-.modal-content input,
-.modal-content textarea {
+#contenidoModal input,
+#contenidoModal textarea {
     padding: 10px 14px;
     border: 1px solid #5c935f;
     border-radius: 5px;
@@ -251,13 +246,12 @@ h1 {
     color: #2e402c;
 }
 
-.modal-content textarea {
+#contenidoModal textarea {
     resize: vertical;
     height: 100px;
 }
 
-
-.modal-content button {
+#enviarBtn {
     margin-top: 20px;
     padding: 10px 15px;
     background-color: #3a6b35;
@@ -269,8 +263,7 @@ h1 {
     width: 50%;
 }
 
-/* Botón de cierre redondo */
-.close-btn {
+#cerrarModalBtn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -284,7 +277,7 @@ h1 {
     line-height: 1;
 }
 
-#openModalBtn {
+#abrirModalBtn {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -298,11 +291,46 @@ h1 {
     z-index: 1001;
 }
 
-.modal-content .close-btn {
-    width: auto; 
-    padding: 6px 10px;
-    top: 15px;
-    right: 15px;
-    font-size: 18px;
-    line-height: 1;
+/* Modal de mensaje */
+#modalMensaje {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: #00000099;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+#modalMensaje.abierto {
+    display: flex;
+}
+
+#contenidoMensaje {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    color: #333333;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 10px #00000066;
+}
+
+#cerrarMensajeBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3a6b35;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.mensaje-error {
+    color: #a30000;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: none;
 }

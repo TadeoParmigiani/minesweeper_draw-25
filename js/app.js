@@ -282,92 +282,96 @@ function detenerTemporizador() {
     intervaloTemporizador = null;
 }
 
-// Referencias a elementos
-const openModalBtn  = document.getElementById('openModalBtn');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const contactModal  = document.getElementById('contactModal');
-const contactForm   = document.getElementById('contactForm');
+document.addEventListener('DOMContentLoaded', function () {
+    var abrirModalBtn = document.getElementById('abrirModalBtn');
+    var cerrarModalBtn = document.getElementById('cerrarModalBtn');
+    var modalContacto = document.getElementById('modalContacto');
+    var formulario = document.getElementById('formularioContacto');
 
-// Abre el modal
-openModalBtn.addEventListener('click', function() {
-  contactModal.classList.add('open');
-});
+    var nombre = document.getElementById('nombre');
+    var correo = document.getElementById('correo');
+    var mensaje = document.getElementById('mensaje');
 
-// Cierra el modal (botón “×”)
-closeModalBtn.addEventListener('click', function() {
-  contactModal.classList.remove('open');
-});
+    var errorNombre = document.getElementById('error-nombre');
+    var errorCorreo = document.getElementById('error-correo');
+    var errorMensaje = document.getElementById('error-mensaje');
 
-// Cierra si hacen click fuera del contenido
-contactModal.addEventListener('click', function(e) {
-  if (e.target === contactModal) {
-    contactModal.classList.remove('open');
-  }
-});
+    abrirModalBtn.addEventListener('click', function () {
+        modalContacto.classList.add('abierto');
 
+        // Limpiar campos y errores
+        nombre.value = '';
+        correo.value = '';
+        mensaje.value = '';
+        errorNombre.style.display = 'none';
+        errorCorreo.style.display = 'none';
+        errorMensaje.style.display = 'none';
+        errorNombre.textContent = '';
+        errorCorreo.textContent = '';
+        errorMensaje.textContent = '';
 
-contactForm.addEventListener('submit', function(e) {
-  e.preventDefault();
+        nombre.focus();
+    });
 
+    cerrarModalBtn.addEventListener('click', function () {
+        modalContacto.classList.remove('abierto');
+    });
 
-  var nameInput    = document.getElementById('name');
-  var emailInput   = document.getElementById('email');
-  var messageInput = document.getElementById('message');
+    modalContacto.addEventListener('click', function (e) {
+        if (e.target === modalContacto) {
+            modalContacto.classList.remove('abierto');
+        }
+    });
 
+    formulario.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-  nameInput.setCustomValidity('');
-  emailInput.setCustomValidity('');
-  messageInput.setCustomValidity('');
+        var valido = true;
 
-  var nameVal    = nameInput.value.trim();
-  var emailVal   = emailInput.value.trim();
-  var messageVal = messageInput.value.trim();
+        // Validación nombre
+        if (nombre.value.trim().length < 3) {
+            errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
+            errorNombre.style.display = 'block';
+            valido = false;
+        } else {
+            errorNombre.style.display = 'none';
+        }
 
-  let valid = true;
+        // Validación correo (básica)
+        var correoVal = correo.value.trim();
+        if (!correoVal.includes('@') || !correoVal.includes('.') || correoVal.length < 6) {
+            errorCorreo.textContent = 'Introduce un correo electrónico válido.';
+            errorCorreo.style.display = 'block';
+            valido = false;
+        } else {
+            errorCorreo.style.display = 'none';
+        }
 
+        // Validación mensaje
+        if (mensaje.value.trim().length <= 5) {
+            errorMensaje.textContent = 'El mensaje debe tener más de 5 caracteres.';
+            errorMensaje.style.display = 'block';
+            valido = false;
+        } else {
+            errorMensaje.style.display = 'none';
+        }
 
-if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/.test(nameVal)) {
-  nameInput.setCustomValidity('El nombre debe contener solo letras, números y espacios.');
-  valid = false;
-}
+        if (valido) {
+            modalContacto.classList.remove('abierto');
 
+            var nombreVal = nombre.value.trim();
+            var mensajeVal = mensaje.value.trim();
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-    emailInput.setCustomValidity('Introduce un correo electrónico válido.');
-    valid = false;
-  }
+            var destinatario = 'destino@tudominio.com';
+            var asunto = 'Mensaje de contacto de ' + nombreVal;
+            var cuerpo = 'Nombre: ' + nombreVal + '\n' +
+                'Correo: ' + correoVal + '\n\n' +
+                mensajeVal;
 
-
-  if (messageVal.length <= 5) {
-    messageInput.setCustomValidity('El mensaje debe tener más de 5 caracteres.');
-    valid = false;
-  }
-
-
-  if (!valid) {
-    if (!nameInput.checkValidity()) {
-      nameInput.reportValidity();
-    } else if (!emailInput.checkValidity()) {
-      emailInput.reportValidity();
-    } else {
-      messageInput.reportValidity();
-    }
-    return;
-  }
-
-
-  var recipient = 'destino@tudominio.com';
-  var subject   = 'Contacto desde web: ' + nameVal;
-  var body      = 
-    'Nombre: ' + nameVal    + '\n' +
-    'Email: '  + emailVal   + '\n\n' +
-    messageVal;
-
-
-  window.location.href =
-    'mailto:' + recipient +
-    '?subject=' + encodeURIComponent(subject) +
-    '&body='    + encodeURIComponent(body);
-
-  contactModal.classList.remove('open');
+            window.location.href =
+                'mailto:' + destinatario +
+                '?subject=' + encodeURIComponent(asunto) +
+                '&body=' + encodeURIComponent(cuerpo);
+        }
+    });
 });
