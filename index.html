@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Buscaminas</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
     <h1>Buscaminas Jungla</h1>
     <!-- Panel de info -->
@@ -21,29 +23,54 @@
         <span id="error-nombre"></span>
 
 
-        <label for="dificultad" >Dificultad:</label>
-            <select name="dificultad" required>
-                <option value="facil">Fácil (8x8 - 10 minas)</option>
-                <option value="media">Media (12x12 - 25 minas)</option>
-                <option value="dificil">Difícil (16x16 - 40 minas)</option>
-            </select>
+        <label for="dificultad">Dificultad:</label>
+        <select name="dificultad" required>
+            <option value="facil">Fácil (8x8 - 10 minas)</option>
+            <option value="media">Media (12x12 - 25 minas)</option>
+            <option value="dificil">Difícil (16x16 - 40 minas)</option>
+        </select>
 
         <button type="submit">¡Empezar juego!</button>
     </form>
 
     <!-- Contenedor del tablero -->
-    <div id="tablero" ></div>
-        <!-- Botón Reiniciar-->
+    <div id="tablero"></div>
+    <!-- Botón Reiniciar-->
     <button id="btn-reiniciar" type="button" hidden>Reiniciar</button>
-    <script src="./js/app.js"></script>
+
 
     <!-- Modal de fin de juego -->
-<div id="modal-fin-juego" class="modal">
-  <div id="modal-contenido" class="modal-contenido">
-    <h2 id="mensaje-resultado"></h2>
-    <button id="cerrar-modal">Cerrar</button>
-  </div>
-</div>
+    <div id="modal-fin-juego" class="modal">
+        <div id="modal-contenido" class="modal-contenido">
+            <h2 id="mensaje-resultado"></h2>
+            <button id="cerrar-modal">Cerrar</button>
+        </div>
+    </div>
 
+    <!-- Botón para abrir el modal -->
+    <button id="openModalBtn">Contactar</button>
+
+    <!-- Estructura del modal -->
+    <div id="contactModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModalBtn">&times;</button>
+            <h2>Envíanos un mensaje</h2>
+            <form id="contactForm">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" required />
+
+                <label for="email">Tu e‑mail</label>
+                <input type="email" id="email" name="email" required />
+
+                <label for="message">Mensaje</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/app.js"></script>
 </body>
+
 </html>

@@ -1,12 +1,12 @@
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  text-align: center;
-  background: url('https://images.unsplash.com/photo-1516528387618-afa90b13e000?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHNlbHZhfGVufDB8fDB8fHww') no-repeat center center fixed;
-  background-size: cover;
-  
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    background: url('https://images.unsplash.com/photo-1516528387618-afa90b13e000?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHNlbHZhfGVufDB8fDB8fHww') no-repeat center center fixed;
+    background-size: cover;
+
 }
 
 h1 {
@@ -43,12 +43,13 @@ h1 {
     color: #eaf9e0;
     width: 20%;
 }
-#error-nombre{
-     color: #ff6b6b; 
-     display: none;
-     font-size: 14px;
-     margin-top: 0px;
-     text-align: left;
+
+#error-nombre {
+    color: #ff6b6b;
+    display: none;
+    font-size: 14px;
+    margin-top: 0px;
+    text-align: left;
 }
 
 #formulario-configuracion label {
@@ -103,8 +104,9 @@ h1 {
     text-align: center;
     cursor: pointer;
 }
+
 .celda-revelada {
-    background: #679767 ;
+    background: #679767;
 }
 
 #btn-reiniciar {
@@ -117,7 +119,7 @@ h1 {
     padding: 10px 20px;
     font-weight: bold;
     cursor: pointer;
-    
+
 }
 
 
@@ -161,11 +163,146 @@ h1 {
 
 
 /* Colores para los números en celdas */
-.numero-1 { color: #004d00; } 
-.numero-2 { color: #006600; }
-.numero-3 { color: #228b22; }
-.numero-4 { color: #556b2f; }
-.numero-5 { color: #8b4513; }
-.numero-6 { color: #b8860b; }
-.numero-7 { color: #cd853f; }
-.numero-8 { color: #2f4f4f; }
+.numero-1 {
+    color: #004d00;
+}
+
+.numero-2 {
+    color: #006600;
+}
+
+.numero-3 {
+    color: #228b22;
+}
+
+.numero-4 {
+    color: #556b2f;
+}
+
+.numero-5 {
+    color: #8b4513;
+}
+
+.numero-6 {
+    color: #b8860b;
+}
+
+.numero-7 {
+    color: #cd853f;
+}
+
+.numero-8 {
+    color: #2f4f4f;
+}
+
+
+#contactModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: #0a1e0acc;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#contactModal.open {
+    display: flex;
+}
+
+/* Contenido del modal */
+.modal-content {
+    background-color: #eaf9e0;
+    padding: 40px 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #1a2e1a;
+    text-align: center;
+    color: #2e402c;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+}
+
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+
+.modal-content label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 18px;
+    gap: 8px;
+    color: #2e402c;
+}
+
+
+.modal-content input,
+.modal-content textarea {
+    padding: 10px 14px;
+    border: 1px solid #5c935f;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #eaf9e0;
+    color: #2e402c;
+}
+
+.modal-content textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+
+.modal-content button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #3a6b35;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 50%;
+}
+
+/* Botón de cierre redondo */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #3a6b35;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+#openModalBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #3a6b35;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.modal-content .close-btn {
+    width: auto; 
+    padding: 6px 10px;
+    top: 15px;
+    right: 15px;
+    font-size: 18px;
+    line-height: 1;
+}

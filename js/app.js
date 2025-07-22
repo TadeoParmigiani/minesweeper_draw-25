@@ -1,231 +1,235 @@
 'use strict';
 
-    var formulario = document.getElementById("formulario-configuracion");
-    var tablero = document.getElementById("tablero");
-    var tam_casilla = 50;
-    var btn_reiniciar = document.getElementById("btn-reiniciar");
-    var panel = document.getElementById("panel-info");
-    var temporizador = document.getElementById("temporizador");
-    var contadorBanderas = document.getElementById("contador-banderas");
+var formulario = document.getElementById("formulario-configuracion");
+var tablero = document.getElementById("tablero");
+var tam_casilla = 50;
+var btn_reiniciar = document.getElementById("btn-reiniciar");
+var panel = document.getElementById("panel-info");
+var temporizador = document.getElementById("temporizador");
+var contadorBanderas = document.getElementById("contador-banderas");
+var abrirContactoBtn = document.getElementById('abrir-contacto');
+var modalContacto = document.getElementById('modal-contacto');
+var cerrarContactoBtn = document.getElementById('cerrar-contacto');
+var formContacto = document.getElementById('form-contacto');
 
-    var celdas = [];
-    var minas = [];
-    var totalCeldas = 0;
-    var celdasReveladas = 0;
-    var juegoTerminado = false;
-    var columnas = 0;
-    var banderasColocadas = 0;
-    var totalMinasPartida = 0;
+var celdas = [];
+var minas = [];
+var totalCeldas = 0;
+var celdasReveladas = 0;
+var juegoTerminado = false;
+var columnas = 0;
+var banderasColocadas = 0;
+var totalMinasPartida = 0;
 
-    // Variables para reiniciar
-    var filasActuales = 0;
-    var columnasActuales = 0;
-    var minasActuales = 0;
+// Variables para reiniciar
+var filasActuales = 0;
+var columnasActuales = 0;
+var minasActuales = 0;
 
-    // Temporizador
-    var intervaloTemporizador = null;
-    var segundos = 0;
-    var temporizadorActivo = false;
+// Temporizador
+var intervaloTemporizador = null;
+var segundos = 0;
+var temporizadorActivo = false;
 
-    formulario.addEventListener("submit", function(eventoFormulario) {
-        eventoFormulario.preventDefault();
+formulario.addEventListener("submit", function (eventoFormulario) {
+    eventoFormulario.preventDefault();
 
-        var nombre = formulario.nombreJugador.value.trim();
-        var dificultad = formulario.dificultad.value;
-         var errorNombre = document.getElementById("error-nombre");
+    var nombre = formulario.nombreJugador.value.trim();
+    var dificultad = formulario.dificultad.value;
+    var errorNombre = document.getElementById("error-nombre");
 
-        if (nombre.length < 3) {
-            errorNombre.textContent = "El nombre debe tener al menos 3 caracteres.";
-            errorNombre.style.display = "block";
+    if (nombre.length < 3) {
+        errorNombre.textContent = "El nombre debe tener al menos 3 caracteres.";
+        errorNombre.style.display = "block";
         return;
-        } else {
+    } else {
         errorNombre.style.display = "none";
+    }
+
+    var filas = 0
+    var totalMinas = 0
+
+    if (dificultad === "facil") {
+        filas = 8
+        columnas = 8;
+        totalMinas = 10;
+    } else if (dificultad === "media") {
+        filas = 12
+        columnas = 12;
+        totalMinas = 25;
+    } else if (dificultad === "dificil") {
+        filas = 16
+        columnas = 16;
+        totalMinas = 40;
+    }
+
+    iniciarJuego(filas, columnas, totalMinas);
+    formulario.style.display = "none";
+    tablero.style.display = "flex";
+    panel.style.display = "flex";
+    btn_reiniciar.style.display = "block";
+});
+
+function iniciarJuego(filas, columnasParam, totalMinas) {
+    tablero.innerHTML = "";
+    columnas = columnasParam;
+    totalCeldas = filas * columnas;
+    tablero.style.width = (columnas * tam_casilla) + "px";
+    celdas = [];
+    minas = [];
+    celdasReveladas = 0;
+    juegoTerminado = false;
+
+    // Guardar config actual
+    filasActuales = filas;
+    columnasActuales = columnasParam;
+    minasActuales = totalMinas;
+
+    banderasColocadas = 0;
+    totalMinasPartida = totalMinas;
+    contadorBanderas.textContent = "Minas restantes: " + (totalMinasPartida - banderasColocadas);
+
+    detenerTemporizador();
+    segundos = 0;
+    temporizadorActivo = false;
+    temporizador.textContent = "00:00";
+
+    for (var i = 0; i < totalCeldas; i++) {
+        var celda = document.createElement("div");
+        celda.classList.add("celda");
+        celda.dataset.index = i;
+        celda.dataset.revelada = "false";
+        celda.dataset.bandera = "false";
+        celda.dataset.mina = "false";
+        celda.addEventListener("click", revelarCeldaConClickIzquierdo);
+        celda.addEventListener("contextmenu", colocarBanderaConClickDerecho);
+        tablero.appendChild(celda);
+        celdas.push(celda);
+    }
+
+    var colocadas = 0;
+    while (colocadas < totalMinas) {
+        var pos = Math.floor(Math.random() * totalCeldas);
+        if (celdas[pos].dataset.mina === "false") {
+            celdas[pos].dataset.mina = "true";
+            minas.push(pos);
+            colocadas++;
         }
+    }
+}
 
-        var filas = 0
-        var totalMinas = 0
+function revelarCeldaConClickIzquierdo(eventoClick) {
+    if (juegoTerminado) return;
 
-        if (dificultad === "facil") {
-            filas = 8
-            columnas = 8;
-            totalMinas = 10;
-        } else if (dificultad === "media") {
-            filas = 12
-            columnas = 12;
-            totalMinas = 25;
-        } else if (dificultad === "dificil") {
-            filas = 16
-            columnas = 16;
-            totalMinas = 40;
-        }
+    var celda = eventoClick.target;
+    var index = parseInt(celda.dataset.index);
 
-        iniciarJuego(filas, columnas, totalMinas);
-        formulario.style.display = "none";
-        tablero.style.display = "flex";
-        panel.style.display = "flex";
-        btn_reiniciar.style.display = "block";
-    });
+    if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
 
-    function iniciarJuego(filas, columnasParam, totalMinas) {
-        tablero.innerHTML = "";
-        columnas = columnasParam;
-        totalCeldas = filas * columnas;
-        tablero.style.width = (columnas * tam_casilla) + "px";
-        celdas = [];
-        minas = [];
-        celdasReveladas = 0;
-        juegoTerminado = false;
+    if (!temporizadorActivo) {
+        temporizadorActivo = true;
+        iniciarTemporizador();
+    }
 
-        // Guardar config actual
-        filasActuales = filas;
-        columnasActuales = columnasParam;
-        minasActuales = totalMinas;
+    revelar(index);
 
-        banderasColocadas = 0;
-        totalMinasPartida = totalMinas;
-        contadorBanderas.textContent = "Minas restantes: " + (totalMinasPartida - banderasColocadas);
+    if (celdasReveladas === totalCeldas - minas.length) {
+        terminarJuego(true);
+    }
+}
 
-        detenerTemporizador();
-        segundos = 0;
-        temporizadorActivo = false;
-        temporizador.textContent = "00:00";
+function revelar(index) {
+    var celda = celdas[index];
+    if (!celda || celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
 
-        for (var i = 0; i < totalCeldas; i++) {
-            var celda = document.createElement("div");
-            celda.classList.add("celda");
-            celda.dataset.index = i;
-            celda.dataset.revelada = "false";
-            celda.dataset.bandera = "false";
-            celda.dataset.mina = "false";
-            celda.addEventListener("click", revelarCeldaConClickIzquierdo);
-            celda.addEventListener("contextmenu", colocarBanderaConClickDerecho);
-            tablero.appendChild(celda);
-            celdas.push(celda);
-        }
+    celda.dataset.revelada = "true";
+    celda.classList.add("celda-revelada");
+    celdasReveladas++;
 
-        var colocadas = 0;
-        while (colocadas < totalMinas) {
-            var pos = Math.floor(Math.random() * totalCeldas);
-            if (celdas[pos].dataset.mina === "false") {
-                celdas[pos].dataset.mina = "true";
-                minas.push(pos);
-                colocadas++;
+    if (celda.dataset.mina === "true") {
+        celda.textContent = "💣";
+        terminarJuego(false);
+        return;
+    }
+
+    var minasCerca = contarMinasCercanas(index);
+    if (minasCerca > 0) {
+        celda.textContent = minasCerca;
+        celda.classList.add(`numero-${minasCerca}`);
+    } else {
+        expandirDesde(index);
+    }
+}
+
+function expandirDesde(index) {
+    var vecinos = obtenerVecinos(index);
+    for (var i = 0; i < vecinos.length; i++) {
+        var vecino = vecinos[i];
+        var celda = celdas[vecino];
+        if (celda.dataset.revelada === "false" && celda.dataset.mina === "false") {
+            var minasAlrededor = contarMinasCercanas(vecino);
+            celda.dataset.revelada = "true";
+            celda.classList.add("celda-revelada");
+            celdasReveladas++;
+            if (minasAlrededor > 0) {
+                celda.textContent = minasAlrededor;
+                celda.classList.add(`numero-${minasAlrededor}`);
+            } else {
+                expandirDesde(vecino);
             }
         }
     }
+}
 
-    function revelarCeldaConClickIzquierdo(eventoClick) {
-        if (juegoTerminado) return;
+function colocarBanderaConClickDerecho(eventoClickDerecho) {
+    eventoClickDerecho.preventDefault();
+    if (juegoTerminado) return;
 
-        var celda = eventoClick.target;
-        var index = parseInt(celda.dataset.index);
+    var celda = eventoClickDerecho.target;
+    if (celda.dataset.revelada === "true") return;
 
-        if (celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
-
-        if (!temporizadorActivo) {
-            temporizadorActivo = true;
-            iniciarTemporizador();
-        }
-
-        revelar(index);
-
-        if (celdasReveladas === totalCeldas - minas.length) {
-            terminarJuego(true);
-        }
+    if (celda.dataset.bandera === "false") {
+        celda.dataset.bandera = "true";
+        celda.textContent = "🐒";
+        banderasColocadas++;
+    } else {
+        celda.dataset.bandera = "false";
+        celda.textContent = "";
+        banderasColocadas--;
     }
 
-    function revelar(index) {
-        var celda = celdas[index];
-        if (!celda || celda.dataset.revelada === "true" || celda.dataset.bandera === "true") return;
+    var minasRestantes = totalMinasPartida - banderasColocadas;
+    contadorBanderas.textContent = "Minas restantes: " + minasRestantes;
+}
 
-        celda.dataset.revelada = "true";
-        celda.classList.add("celda-revelada");
-        celdasReveladas++;
-
-        if (celda.dataset.mina === "true") {
-            celda.textContent = "💣";
-            terminarJuego(false);
-            return;
-        }
-
-        var minasCerca = contarMinasCercanas(index);
-        if (minasCerca > 0) {
-            celda.textContent = minasCerca;
-            celda.classList.add(`numero-${minasCerca}`);
-        } else {
-            expandirDesde(index);
+function contarMinasCercanas(index) {
+    var vecinos = obtenerVecinos(index);
+    var cantidad = 0;
+    for (var i = 0; i < vecinos.length; i++) {
+        if (celdas[vecinos[i]].dataset.mina === "true") {
+            cantidad++;
         }
     }
+    return cantidad;
+}
 
-    function expandirDesde(index) {
-        var vecinos = obtenerVecinos(index);
-        for (var i = 0; i < vecinos.length; i++) {
-            var vecino = vecinos[i];
-            var celda = celdas[vecino];
-            if (celda.dataset.revelada === "false" && celda.dataset.mina === "false") {
-                var minasAlrededor = contarMinasCercanas(vecino);
-                celda.dataset.revelada = "true";
-                celda.classList.add("celda-revelada");
-                celdasReveladas++;
-                if (minasAlrededor > 0) {
-                    celda.textContent = minasAlrededor;
-                    celda.classList.add(`numero-${minasAlrededor}`);
-                } else {
-                    expandirDesde(vecino);
-                }
+function obtenerVecinos(index) {
+    var fila = Math.floor(index / columnas);
+    var col = index % columnas;
+    var vecinos = [];
+
+    for (var i = -1; i <= 1; i++) {
+        for (var j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) continue;
+            var nuevaFila = fila + i;
+            var nuevaCol = col + j;
+            if (nuevaFila >= 0 && nuevaFila < totalCeldas / columnas && nuevaCol >= 0 && nuevaCol < columnas) {
+                vecinos.push(nuevaFila * columnas + nuevaCol);
             }
         }
     }
-
-    function colocarBanderaConClickDerecho(eventoClickDerecho) {
-        eventoClickDerecho.preventDefault();
-        if (juegoTerminado) return;
-
-        var celda = eventoClickDerecho.target;
-        if (celda.dataset.revelada === "true") return;
-
-        if (celda.dataset.bandera === "false") {
-            celda.dataset.bandera = "true";
-            celda.textContent = "🐒";
-            banderasColocadas++;
-        } else {
-            celda.dataset.bandera = "false";
-            celda.textContent = "";
-            banderasColocadas--;
-        }
-
-        var minasRestantes = totalMinasPartida - banderasColocadas;
-        contadorBanderas.textContent = "Minas restantes: " + minasRestantes;
-    }
-
-    function contarMinasCercanas(index) {
-        var vecinos = obtenerVecinos(index);
-        var cantidad = 0;
-        for (var i = 0; i < vecinos.length; i++) {
-            if (celdas[vecinos[i]].dataset.mina === "true") {
-                cantidad++;
-            }
-        }
-        return cantidad;
-    }
-
-    function obtenerVecinos(index) {
-        var fila = Math.floor(index / columnas);
-        var col = index % columnas;
-        var vecinos = [];
-
-        for (var i = -1; i <= 1; i++) {
-            for (var j = -1; j <= 1; j++) {
-                if (i === 0 && j === 0) continue;
-                var nuevaFila = fila + i;
-                var nuevaCol = col + j;
-                if (nuevaFila >= 0 && nuevaFila < totalCeldas / columnas && nuevaCol >= 0 && nuevaCol < columnas) {
-                    vecinos.push(nuevaFila * columnas + nuevaCol);
-                }
-            }
-        }
-        return vecinos;
-    }
+    return vecinos;
+}
 
 function terminarJuego(gano) {
     juegoTerminado = true;
@@ -248,33 +252,122 @@ function mostrarModal(mensaje) {
     texto.textContent = mensaje;
     modal.style.display = "flex";
 
-    btnCerrar.onclick = function() {
+    btnCerrar.onclick = function () {
         modal.style.display = "none";
     };
 }
 
 
-    // Reiniciar 
-    btn_reiniciar.addEventListener("click", function() {
-        iniciarJuego(filasActuales, columnasActuales, minasActuales);
-    });
+// Reiniciar 
+btn_reiniciar.addEventListener("click", function () {
+    iniciarJuego(filasActuales, columnasActuales, minasActuales);
+});
 
-    // Temporizador
-    function iniciarTemporizador() {
-        intervaloTemporizador = setInterval(function() {
-            segundos++;
-            var minutos = Math.floor(segundos / 60);
-            var seg = segundos % 60;
+// Temporizador
+function iniciarTemporizador() {
+    intervaloTemporizador = setInterval(function () {
+        segundos++;
+        var minutos = Math.floor(segundos / 60);
+        var seg = segundos % 60;
 
-            if (minutos < 10) minutos = "0" + minutos;
-            if (seg < 10) seg = "0" + seg;
+        if (minutos < 10) minutos = "0" + minutos;
+        if (seg < 10) seg = "0" + seg;
 
-            temporizador.textContent = minutos + ":" + seg;
-        }, 1000);
+        temporizador.textContent = minutos + ":" + seg;
+    }, 1000);
+}
+
+function detenerTemporizador() {
+    clearInterval(intervaloTemporizador);
+    intervaloTemporizador = null;
+}
+
+// Referencias a elementos
+const openModalBtn  = document.getElementById('openModalBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const contactModal  = document.getElementById('contactModal');
+const contactForm   = document.getElementById('contactForm');
+
+// Abre el modal
+openModalBtn.addEventListener('click', function() {
+  contactModal.classList.add('open');
+});
+
+// Cierra el modal (botón “×”)
+closeModalBtn.addEventListener('click', function() {
+  contactModal.classList.remove('open');
+});
+
+// Cierra si hacen click fuera del contenido
+contactModal.addEventListener('click', function(e) {
+  if (e.target === contactModal) {
+    contactModal.classList.remove('open');
+  }
+});
+
+
+contactForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+
+  var nameInput    = document.getElementById('name');
+  var emailInput   = document.getElementById('email');
+  var messageInput = document.getElementById('message');
+
+
+  nameInput.setCustomValidity('');
+  emailInput.setCustomValidity('');
+  messageInput.setCustomValidity('');
+
+  var nameVal    = nameInput.value.trim();
+  var emailVal   = emailInput.value.trim();
+  var messageVal = messageInput.value.trim();
+
+  let valid = true;
+
+
+if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/.test(nameVal)) {
+  nameInput.setCustomValidity('El nombre debe contener solo letras, números y espacios.');
+  valid = false;
+}
+
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    emailInput.setCustomValidity('Introduce un correo electrónico válido.');
+    valid = false;
+  }
+
+
+  if (messageVal.length <= 5) {
+    messageInput.setCustomValidity('El mensaje debe tener más de 5 caracteres.');
+    valid = false;
+  }
+
+
+  if (!valid) {
+    if (!nameInput.checkValidity()) {
+      nameInput.reportValidity();
+    } else if (!emailInput.checkValidity()) {
+      emailInput.reportValidity();
+    } else {
+      messageInput.reportValidity();
     }
+    return;
+  }
 
-    function detenerTemporizador() {
-        clearInterval(intervaloTemporizador);
-        intervaloTemporizador = null;
-    }
 
+  var recipient = 'destino@tudominio.com';
+  var subject   = 'Contacto desde web: ' + nameVal;
+  var body      = 
+    'Nombre: ' + nameVal    + '\n' +
+    'Email: '  + emailVal   + '\n\n' +
+    messageVal;
+
+
+  window.location.href =
+    'mailto:' + recipient +
+    '?subject=' + encodeURIComponent(subject) +
+    '&body='    + encodeURIComponent(body);
+
+  contactModal.classList.remove('open');
+});
