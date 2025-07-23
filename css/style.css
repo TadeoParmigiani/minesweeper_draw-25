@@ -108,7 +108,10 @@ h1 {
 .celda-revelada {
     background: #679767;
 }
-
+#centrado-reiniciar {
+  display: flex;
+  justify-content: center;
+}
 #btn-reiniciar {
     margin: 16px auto 0;
     display: none;
@@ -279,6 +282,7 @@ h1 {
 
 #abrirModalBtn {
     position: fixed;
+    font-size: 16px;
     bottom: 20px;
     right: 20px;
     padding: 10px 15px;
@@ -288,7 +292,7 @@ h1 {
     border: none;
     border-radius: 7px;
     cursor: pointer;
-    z-index: 1001;
+    
 }
 
 /* Modal de mensaje */
@@ -333,4 +337,149 @@ h1 {
     font-size: 14px;
     margin-bottom: 10px;
     display: none;
+}
+/* ------------------------------
+   Breakpoint: hasta 320px (móviles muy chicos)
+------------------------------ */
+@media (max-width: 320px) {
+    h1 {
+        font-size: 25px;
+        margin-top: 12px;
+        min-width: 200px;
+        text-align: center;
+        
+    }
+
+    #formulario-configuracion {
+        width: 80%;
+        padding: 20px 16px;
+        gap: 16px;
+    }
+
+    #formulario-configuracion label {
+        font-size: 16px;
+    }
+
+    #formulario-configuracion input,
+    #formulario-configuracion select {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    #formulario-configuracion button {
+        width: 70%;
+        font-size: 13px;
+    }
+
+
+    #modal-contenido, #contenidoModal, #contenidoMensaje {
+        width: 90%;
+        padding: 20px;
+    }
+
+    #abrirModalBtn {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+      #panel-info {
+    font-size: 25px;
+    padding-left: 20px;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 320px;
+    }
+
+      #btn-reiniciar {
+    min-width: 100px;
+     font-size: 15px;
+     margin-left: 120px;
+  }
+ #abrirModalBtn{
+    font-size: 17px;
+    min-width: 100px;
+ }
+}
+
+/* ------------------------------
+   Breakpoint: 321px a 768px (smartphones y tablets chicas)
+------------------------------ */
+@media (min-width: 321px) and (max-width: 768px) {
+    h1 {
+        font-size: 34px;
+        margin-top: 10px;
+    }
+    
+    #formulario-configuracion {
+        width: 50%;
+        padding: 24px 20px;
+        gap: 18px;
+    }
+
+    #formulario-configuracion label {
+        font-size: 16px;
+    }
+
+    #formulario-configuracion input,
+    #formulario-configuracion select {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+    #formulario-configuracion button {
+        width: 60%;
+        font-size: 13px;
+    }
+
+    #modal-contenido, #contenidoModal, #contenidoMensaje {
+        width: 80%;
+        padding: 28px;
+    }
+
+    #abrirModalBtn {
+        padding: 10px 12px;
+        font-size: 15px;
+        
+    }
+   
+}
+
+/* ------------------------------
+   Breakpoint: 769px a 1024px (tablets grandes)
+------------------------------ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    h1 {
+        font-size: 40px;
+        margin-top: 10px;
+    }
+
+    #formulario-configuracion {
+        width: 40%;
+        padding: 28px 32px;
+        gap: 20px;
+    }
+
+    #formulario-configuracion label {
+        font-size: 15px;
+    }
+
+    #formulario-configuracion input,
+    #formulario-configuracion select {
+        font-size: 15px;
+        padding: 10px 14px;
+    }
+
+    #formulario-configuracion button {
+        width: 50%;
+        font-size: 13px;
+    }
+
+    #modal-contenido, #contenidoModal, #contenidoMensaje {
+        width: 70%;
+        padding: 36px 50px;
+    }
+
+    #abrirModalBtn {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
 }

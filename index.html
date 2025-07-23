@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Buscaminas</title>
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscamina</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
-
 <body>
     <h1>Buscaminas Jungla</h1>
     <!-- Panel de info -->
@@ -36,7 +35,9 @@
     <!-- Contenedor del tablero -->
     <div id="tablero"></div>
     <!-- Botón Reiniciar-->
-    <button id="btn-reiniciar" type="button" hidden>Reiniciar</button>
+    <div id="centrado-reiniciar">
+      <button id="btn-reiniciar" hidden>Reiniciar</button>
+    </div>
 
 
     <!-- Modal de fin de juego -->
@@ -56,12 +57,12 @@
       <button id="cerrarModalBtn">&times;</button>
       <h2>Envíanos un mensaje</h2>
       <form id="formularioContacto">
-        <label for="nombre">Nombre</label>
+        <label for="nombre">Nombre Completo</label>
         <input type="text" id="nombre" name="nombre" />
         <div id="error-nombre" class="mensaje-error"></div>
 
         <label for="correo">Correo electrónico</label>
-        <input type="email" id="correo" name="correo" />
+        <input type="text" id="correo" name="correo" />
         <div id="error-correo" class="mensaje-error"></div>
 
         <label for="mensaje">Mensaje</label>
@@ -75,5 +76,4 @@
 
     <script src="./js/app.js"></script>
 </body>
-
 </html>

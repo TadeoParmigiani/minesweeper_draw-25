@@ -2,15 +2,11 @@
 
 var formulario = document.getElementById("formulario-configuracion");
 var tablero = document.getElementById("tablero");
-var tam_casilla = 50;
+var tam_casilla = 0;
 var btn_reiniciar = document.getElementById("btn-reiniciar");
 var panel = document.getElementById("panel-info");
 var temporizador = document.getElementById("temporizador");
 var contadorBanderas = document.getElementById("contador-banderas");
-var abrirContactoBtn = document.getElementById('abrir-contacto');
-var modalContacto = document.getElementById('modal-contacto');
-var cerrarContactoBtn = document.getElementById('cerrar-contacto');
-var formContacto = document.getElementById('form-contacto');
 
 var celdas = [];
 var minas = [];
@@ -21,18 +17,31 @@ var columnas = 0;
 var banderasColocadas = 0;
 var totalMinasPartida = 0;
 
-// Variables para reiniciar
 var filasActuales = 0;
 var columnasActuales = 0;
 var minasActuales = 0;
 
-// Temporizador
 var intervaloTemporizador = null;
 var segundos = 0;
 var temporizadorActivo = false;
 
+function ajustarTamCasilla() {
+    var ancho = window.innerWidth;
+    if (ancho <= 320) {
+        tam_casilla = 35;
+    } else if (ancho <= 768) {
+        tam_casilla = 40;
+    } else if (ancho <= 1024) {
+        tam_casilla = 48;
+    } else {
+        tam_casilla = 50;
+    }
+}
+
 formulario.addEventListener("submit", function (eventoFormulario) {
     eventoFormulario.preventDefault();
+
+    ajustarTamCasilla();
 
     var nombre = formulario.nombreJugador.value.trim();
     var dificultad = formulario.dificultad.value;
@@ -46,28 +55,36 @@ formulario.addEventListener("submit", function (eventoFormulario) {
         errorNombre.style.display = "none";
     }
 
-    var filas = 0
-    var totalMinas = 0
+    var filas = 0;
+    var totalMinas = 0;
 
     if (dificultad === "facil") {
-        filas = 8
+        filas = 8;
         columnas = 8;
         totalMinas = 10;
     } else if (dificultad === "media") {
-        filas = 12
+        filas = 12;
         columnas = 12;
         totalMinas = 25;
     } else if (dificultad === "dificil") {
-        filas = 16
+        filas = 16;
         columnas = 16;
         totalMinas = 40;
     }
 
     iniciarJuego(filas, columnas, totalMinas);
+
     formulario.style.display = "none";
     tablero.style.display = "flex";
     panel.style.display = "flex";
     btn_reiniciar.style.display = "block";
+});
+
+window.addEventListener("resize", function () {
+    if (!juegoTerminado) {
+        ajustarTamCasilla();
+        iniciarJuego(filasActuales, columnasActuales, minasActuales);
+    }
 });
 
 function iniciarJuego(filas, columnasParam, totalMinas) {
@@ -75,12 +92,12 @@ function iniciarJuego(filas, columnasParam, totalMinas) {
     columnas = columnasParam;
     totalCeldas = filas * columnas;
     tablero.style.width = (columnas * tam_casilla) + "px";
+
     celdas = [];
     minas = [];
     celdasReveladas = 0;
     juegoTerminado = false;
 
-    // Guardar config actual
     filasActuales = filas;
     columnasActuales = columnasParam;
     minasActuales = totalMinas;
@@ -97,6 +114,8 @@ function iniciarJuego(filas, columnasParam, totalMinas) {
     for (var i = 0; i < totalCeldas; i++) {
         var celda = document.createElement("div");
         celda.classList.add("celda");
+        celda.style.width = tam_casilla + "px";
+        celda.style.height = tam_casilla + "px";
         celda.dataset.index = i;
         celda.dataset.revelada = "false";
         celda.dataset.bandera = "false";
@@ -256,32 +275,26 @@ function mostrarModal(mensaje) {
         modal.style.display = "none";
     };
 }
-
-
-// Reiniciar 
+ 
 btn_reiniciar.addEventListener("click", function () {
     iniciarJuego(filasActuales, columnasActuales, minasActuales);
 });
 
-// Temporizador
 function iniciarTemporizador() {
-    intervaloTemporizador = setInterval(function () {
+    intervaloTemporizador = setInterval(() => {
         segundos++;
-        var minutos = Math.floor(segundos / 60);
-        var seg = segundos % 60;
-
-        if (minutos < 10) minutos = "0" + minutos;
-        if (seg < 10) seg = "0" + seg;
-
-        temporizador.textContent = minutos + ":" + seg;
+        const minutos = String(Math.floor(segundos / 60)).padStart(2, '0');
+        const seg = String(segundos % 60).padStart(2, '0');
+        temporizador.textContent = `${minutos}:${seg}`;
     }, 1000);
 }
+
 
 function detenerTemporizador() {
     clearInterval(intervaloTemporizador);
     intervaloTemporizador = null;
 }
-
+//--------------------formulario de mail-----------------------
 document.addEventListener('DOMContentLoaded', function () {
     var abrirModalBtn = document.getElementById('abrirModalBtn');
     var cerrarModalBtn = document.getElementById('cerrarModalBtn');
@@ -299,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
     abrirModalBtn.addEventListener('click', function () {
         modalContacto.classList.add('abierto');
 
-        // Limpiar campos y errores
+       
         nombre.value = '';
         correo.value = '';
         mensaje.value = '';
@@ -317,27 +330,20 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContacto.classList.remove('abierto');
     });
 
-    modalContacto.addEventListener('click', function (e) {
-        if (e.target === modalContacto) {
-            modalContacto.classList.remove('abierto');
-        }
-    });
 
     formulario.addEventListener('submit', function (e) {
         e.preventDefault();
 
         var valido = true;
-
-        // Validación nombre
-        if (nombre.value.trim().length < 3) {
-            errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
+      
+        if (nombre.value.trim().length < 1) {
+            errorNombre.textContent = 'El nombre debe tener al menos un caracteres.';
             errorNombre.style.display = 'block';
             valido = false;
         } else {
             errorNombre.style.display = 'none';
         }
 
-        // Validación correo (básica)
         var correoVal = correo.value.trim();
         if (!correoVal.includes('@') || !correoVal.includes('.') || correoVal.length < 6) {
             errorCorreo.textContent = 'Introduce un correo electrónico válido.';
@@ -347,7 +353,6 @@ document.addEventListener('DOMContentLoaded', function () {
             errorCorreo.style.display = 'none';
         }
 
-        // Validación mensaje
         if (mensaje.value.trim().length <= 5) {
             errorMensaje.textContent = 'El mensaje debe tener más de 5 caracteres.';
             errorMensaje.style.display = 'block';
@@ -362,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var nombreVal = nombre.value.trim();
             var mensajeVal = mensaje.value.trim();
 
-            var destinatario = 'destino@tudominio.com';
+            var destinatario = correoVal;
             var asunto = 'Mensaje de contacto de ' + nombreVal;
             var cuerpo = 'Nombre: ' + nombreVal + '\n' +
                 'Correo: ' + correoVal + '\n\n' +
