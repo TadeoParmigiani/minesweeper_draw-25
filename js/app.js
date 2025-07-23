@@ -263,6 +263,13 @@ function terminarJuego(gano) {
     mostrarModal(gano ? "¡Ganaste!" : "¡Perdiste!");
 }
 
+var verCodigoBtn = document.getElementById("verCodigoBtn");
+
+verCodigoBtn.addEventListener("click", function () {
+  window.open("https://github.com/TadeoParmigiani/minesweeper_draw-25/blob/dev/js/app.js", "_blank");
+});
+
+
 function mostrarModal(mensaje) {
     var modal = document.getElementById("modal-fin-juego");
     var texto = document.getElementById("mensaje-resultado");
