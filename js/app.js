@@ -30,11 +30,11 @@ function ajustarTamCasilla() {
     if (ancho <= 320) {
         tam_casilla = 35;
     } else if (ancho <= 768) {
-        tam_casilla = 40;
+        tam_casilla = 45;
     } else if (ancho <= 1024) {
-        tam_casilla = 48;
-    } else {
         tam_casilla = 50;
+    } else {
+        tam_casilla = 55;
     }
 }
 
@@ -266,7 +266,7 @@ function terminarJuego(gano) {
 var verCodigoBtn = document.getElementById("verCodigoBtn");
 
 verCodigoBtn.addEventListener("click", function () {
-  window.open("https://github.com/TadeoParmigiani/minesweeper_draw-25/blob/dev/js/app.js", "_blank");
+  window.open("https://github.com/TadeoParmigiani/minesweeper_draw-25", "_blank");
 });
 
 

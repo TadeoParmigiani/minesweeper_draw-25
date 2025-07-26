@@ -11,5 +11,8 @@ Ramas:
 Idioma:
 - Espanol
 
+Integrantes:
+- Tadeo parmigiani
+- Ivan Lobos
 
 
