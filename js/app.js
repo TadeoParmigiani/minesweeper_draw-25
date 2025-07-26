@@ -1,10 +1,10 @@
 'use strict';
 
-var formulario = document.getElementById("formulario-configuracion");
+var formulario = document.getElementById("formularioConfiguracion");
 var tablero = document.getElementById("tablero");
 var tam_casilla = 0;
-var btn_reiniciar = document.getElementById("btn-reiniciar");
-var panel = document.getElementById("panel-info");
+var btn_reiniciar = document.getElementById("btnReiniciar");
+var panel = document.getElementById("panelInfo");
 var temporizador = document.getElementById("temporizador");
 var contadorBanderas = document.getElementById("contador-banderas");
 
@@ -45,7 +45,7 @@ formulario.addEventListener("submit", function (eventoFormulario) {
 
     var nombre = formulario.nombreJugador.value.trim();
     var dificultad = formulario.dificultad.value;
-    var errorNombre = document.getElementById("error-nombre");
+    var errorNombre = document.getElementById("errorNombre");
 
     if (nombre.length < 3) {
         errorNombre.textContent = "El nombre debe tener al menos 3 caracteres.";
@@ -271,9 +271,9 @@ verCodigoBtn.addEventListener("click", function () {
 
 
 function mostrarModal(mensaje) {
-    var modal = document.getElementById("modal-fin-juego");
-    var texto = document.getElementById("mensaje-resultado");
-    var btnCerrar = document.getElementById("cerrar-modal");
+    var modal = document.getElementById("modalFinJuego");
+    var texto = document.getElementById("mensajeResultado");
+    var btnCerrar = document.getElementById("cerrarModal");
 
     texto.textContent = mensaje;
     modal.style.display = "flex";
@@ -312,9 +312,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var correo = document.getElementById('correo');
     var mensaje = document.getElementById('mensaje');
 
-    var errorNombre = document.getElementById('error-nombre');
-    var errorCorreo = document.getElementById('error-correo');
-    var errorMensaje = document.getElementById('error-mensaje');
+    var errorNombre = document.getElementById('errorNombre');
+    var errorCorreo = document.getElementById('errorCorreo');
+    var errorMensaje = document.getElementById('errorMensaje');
 
     abrirModalBtn.addEventListener('click', function () {
         modalContacto.classList.add('abierto');

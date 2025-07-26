@@ -16,7 +16,7 @@ h1 {
     text-shadow: 2px 2px 4px #000;
 }
 
-#panel-info {
+#panelInfo {
     display: none;
     justify-content: center;
     gap: 10px;
@@ -31,7 +31,7 @@ h1 {
 }
 
 /* Formulario */
-#formulario-configuracion {
+#formularioConfiguracion {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -44,7 +44,7 @@ h1 {
     width: 20%;
 }
 
-#error-nombre {
+#errorNombre {
     color: #ff6b6b;
     display: none;
     font-size: 14px;
@@ -52,7 +52,7 @@ h1 {
     text-align: left;
 }
 
-#formulario-configuracion label {
+#formularioConfiguracion label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
@@ -60,8 +60,8 @@ h1 {
     gap: 8px;
 }
 
-#formulario-configuracion input,
-#formulario-configuracion select {
+#formularioConfiguracion input,
+#formularioConfiguracion select {
     padding: 10px 14px;
     border: 1px solid #5c935f;
     border-radius: 5px;
@@ -70,7 +70,7 @@ h1 {
     color: #2e402c;
 }
 
-#formulario-configuracion button {
+#formularioConfiguracion button {
     padding: 10px 15px;
     align-self: center;
     background-color: #3a6b35;
@@ -110,11 +110,11 @@ h1 {
 .celda-revelada {
     background: #679767;
 }
-#centrado-reiniciar {
+#centradoReiniciar {
   display: flex;
   justify-content: center;
 }
-#btn-reiniciar {
+#btnReiniciar {
     margin: 16px auto 0;
     display: none;
     background: #a0522d;
@@ -130,7 +130,7 @@ h1 {
 
 
 
-#modal-fin-juego {
+#modalFinJuego {
     display: none;
     position: fixed;
     left: 0;
@@ -142,7 +142,7 @@ h1 {
     align-items: center;
 }
 
-#modal-contenido {
+#modalContenido {
     background-color: #eaf9e0;
     padding: 40px 60px;
     border-radius: 10px;
@@ -151,11 +151,11 @@ h1 {
     box-shadow: 0 0 10px #1a2e1a;
 }
 
-#modal-contenido h2 {
+#modalContenido h2 {
     margin-bottom: 20px;
 }
 
-#cerrar-modal {
+#cerrarModal {
     background-color: #3a6b35;
     color: white;
     border: none;
@@ -282,7 +282,7 @@ h1 {
     line-height: 1;
 }
 
-#contenedor-botones {
+#contenedorBotones {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -290,7 +290,7 @@ h1 {
   gap: 12px;
 }
 
-#contenedor-botones button {
+#contenedorBotones button {
   font-size: 16px;
   padding: 10px 15px;
   background-color: #3a6b35;
@@ -339,7 +339,7 @@ h1 {
     cursor: pointer;
 }
 
-.mensaje-error {
+.mensajeError {
     color: #a30000;
     font-size: 14px;
     margin-bottom: 10px;
@@ -357,23 +357,23 @@ h1 {
         
     }
 
-    #formulario-configuracion {
+    #formularioConfiguracion {
         width: 80%;
         padding: 20px 16px;
         gap: 16px;
     }
 
-    #formulario-configuracion label {
+    #formularioConfiguracion label {
         font-size: 16px;
     }
 
-    #formulario-configuracion input,
-    #formulario-configuracion select {
+    #formularioConfiguracion input,
+    #formularioConfiguracion select {
         font-size: 14px;
         padding: 8px 10px;
     }
 
-    #formulario-configuracion button {
+    #formularioConfiguracion button {
         width: 70%;
         font-size: 13px;
     }
@@ -412,7 +412,7 @@ h1 {
     right: 10px;
     font-size: 15px;
   }
-      #panel-info {
+      #panelInfo {
     font-size: 25px;
     padding-left: 20px;
     flex-direction: column;
@@ -420,13 +420,13 @@ h1 {
     min-width: 320px;
     }
 
-    #btn-reiniciar {
+    #btnReiniciar {
     min-width: 100px;
     font-size: 15px;
     margin-left: 120px;
   }
 
-  #contenedor-botones {
+  #contenedorBotones {
     flex-direction: column;
     right: 10px;
     bottom: 10px;
@@ -435,7 +435,7 @@ h1 {
     align-items: flex-end;
   }
 
-  #contenedor-botones button {
+  #contenedorBotones button {
     font-size: 14px;
     padding: 8px 10px;
     width: 100%;
@@ -452,23 +452,23 @@ h1 {
         margin-top: 10px;
     }
     
-    #formulario-configuracion {
+    #formularioConfiguracion {
         width: 50%;
         padding: 24px 20px;
         gap: 18px;
     }
 
-    #formulario-configuracion label {
+    #formularioConfiguracion label {
         font-size: 16px;
     }
 
-    #formulario-configuracion input,
-    #formulario-configuracion select {
+    #formularioConfiguracion input,
+    #formularioConfiguracion select {
         font-size: 15px;
         padding: 10px 12px;
     }
 
-    #formulario-configuracion button {
+    #formularioConfiguracion button {
         width: 60%;
         font-size: 13px;
     }
@@ -490,23 +490,23 @@ h1 {
         margin-top: 10px;
     }
 
-    #formulario-configuracion {
+    #formularioConfiguracion {
         width: 40%;
         padding: 28px 32px;
         gap: 20px;
     }
 
-    #formulario-configuracion label {
+    #formularioConfiguracion label {
         font-size: 15px;
     }
 
-    #formulario-configuracion input,
-    #formulario-configuracion select {
+    #formularioConfiguracion input,
+    #formularioConfiguracion select {
         font-size: 15px;
         padding: 10px 14px;
     }
 
-    #formulario-configuracion button {
+    #formularioConfiguracion button {
         width: 50%;
         font-size: 13px;
     }

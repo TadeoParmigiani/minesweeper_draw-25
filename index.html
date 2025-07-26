@@ -9,17 +9,17 @@
 <body>
     <h1>Buscaminas Jungla</h1>
     <!-- Panel de info -->
-    <div id="panel-info" hidden>
+    <div id="panelInfo" hidden>
         <strong id="jugadorLabel"></strong>
         <span id="tiempo">Tiempo:</span>
         <span id="temporizador"></span>
         <span id="contador-banderas"></span>
     </div>
     <!-- Formulario para iniciar el juego -->
-    <form id="formulario-configuracion">
+    <form id="formularioConfiguracion">
         <label for="nombreJugador">Nombre: </label>
         <input type="text" id="nombreJugador" placeholder="Tu nombre" />
-        <span id="error-nombre"></span>
+        <span id="errorNombre"></span>
 
 
         <label for="dificultad">Dificultad:</label>
@@ -35,21 +35,21 @@
     <!-- Contenedor del tablero -->
     <div id="tablero"></div>
     <!-- Botón Reiniciar-->
-    <div id="centrado-reiniciar">
-      <button id="btn-reiniciar" hidden>Reiniciar</button>
+    <div id="centradoReiniciar">
+      <button id="btnReiniciar" hidden>Reiniciar</button>
     </div>
 
 
     <!-- Modal de fin de juego -->
-    <div id="modal-fin-juego" class="modal">
-        <div id="modal-contenido" class="modal-contenido">
-            <h2 id="mensaje-resultado"></h2>
-            <button id="cerrar-modal">Cerrar</button>
+    <div id="modalFinJuego" class="modal">
+        <div id="modalContenido" class="modalContenido">
+            <h2 id="mensajeResultado"></h2>
+            <button id="cerrarModal">Cerrar</button>
         </div>
     </div>
 
-    <!-- Botón para abrir el modal -->
-<div id="contenedor-botones">
+    <!-- Botón para abrir el modal y codigo juego -->
+<div id="contenedorBotones">
   <button id="abrirModalBtn">Contactar</button>
   <button id="verCodigoBtn">Código del Juego</button>
 </div>
@@ -62,15 +62,15 @@
       <form id="formularioContacto">
         <label for="nombre">Nombre Completo</label>
         <input type="text" id="nombre" name="nombre" />
-        <div id="error-nombre" class="mensaje-error"></div>
+        <div id="errorNombre" class="mensajeError"></div>
 
         <label for="correo">Correo electrónico</label>
         <input type="text" id="correo" name="correo" />
-        <div id="error-correo" class="mensaje-error"></div>
+        <div id="errorCorreo" class="mensajeError"></div>
 
         <label for="mensaje">Mensaje</label>
         <textarea id="mensaje" name="mensaje"></textarea>
-        <div id="error-mensaje" class="mensaje-error"></div>
+        <div id="errorMensaje" class="mensajeError"></div>
 
         <button id="enviarBtn" type="submit">Enviar</button>
       </form>
