@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscamina</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <h1>Buscaminas Jungla</h1>
+    <!-- Panel de info -->
+    <div id="panelInfo" hidden>
+        <strong id="jugadorLabel"></strong>
+        <span id="tiempo">Tiempo:</span>
+        <span id="temporizador"></span>
+        <span id="contadorbanderas"></span>
+    </div>
+    <!-- Formulario para iniciar el juego -->
+    <form id="formularioConfiguracion">
+        <label for="nombreJugador">Nombre: </label>
+        <input type="text" id="nombreJugador" placeholder="Tu nombre" />
+        <span id="errorNombre"></span>
+
+
+        <label for="dificultad">Dificultad:</label>
+        <select name="dificultad" required>
+            <option value="facil">Fácil (8x8 - 10 minas)</option>
+            <option value="media">Media (12x12 - 25 minas)</option>
+            <option value="dificil">Difícil (16x16 - 40 minas)</option>
+        </select>
+
+        <button type="submit">¡Empezar juego!</button>
+    </form>
+
+    <!-- Contenedor del tablero -->
+    <div id="tablero"></div>
+    <!-- Botón Reiniciar-->
+    <div id="centradoReiniciar">
+      <button id="btnReiniciar" hidden>Reiniciar</button>
+    </div>
+
+
+    <!-- Modal de fin de juego -->
+    <div id="modalFinJuego" class="modal">
+        <div id="modalContenido" class="modalContenido">
+            <h2 id="mensajeResultado"></h2>
+            <button id="cerrarModal">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Botón para abrir el modal y codigo juego -->
+<div id="contenedorBotones">
+  <button id="abrirModalBtn">Contactar</button>
+  <button id="verCodigoBtn">Código del Juego</button>
+</div>
+
+  <!-- Modal de contacto -->
+  <div id="modalContacto">
+    <div id="contenidoModal">
+      <button id="cerrarModalBtn">&times;</button>
+      <h2>Envíanos un mensaje</h2>
+      <form id="formularioContacto">
+        <label for="nombre">Nombre Completo</label>
+        <input type="text" id="nombre" name="nombre" />
+        <div id="errorNombre" class="mensajeError"></div>
+
+        <label for="correo">Correo electrónico</label>
+        <input type="text" id="correo" name="correo" />
+        <div id="errorCorreo" class="mensajeError"></div>
+
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje"></textarea>
+        <div id="errorMensaje" class="mensajeError"></div>
+
+        <button id="enviarBtn" type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+    <script src="./js/app.js"></script>
+</body>
+</html>
