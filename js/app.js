@@ -6,7 +6,7 @@ var tam_casilla = 0;
 var btn_reiniciar = document.getElementById("btnReiniciar");
 var panel = document.getElementById("panelInfo");
 var temporizador = document.getElementById("temporizador");
-var contadorBanderas = document.getElementById("contador-banderas");
+var contadorBanderas = document.getElementById("contadorBanderas");
 
 var celdas = [];
 var minas = [];
@@ -209,7 +209,7 @@ function colocarBanderaConClickDerecho(eventoClickDerecho) {
 
     if (celda.dataset.bandera === "false") {
         celda.dataset.bandera = "true";
-        celda.textContent = "🐒";
+        celda.textContent = "🐍";
         banderasColocadas++;
     } else {
         celda.dataset.bandera = "false";
