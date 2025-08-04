@@ -6,7 +6,6 @@ body {
     text-align: center;
     background: url('https://images.unsplash.com/photo-1516528387618-afa90b13e000?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHNlbHZhfGVufDB8fDB8fHww') no-repeat center center fixed;
     background-size: cover;
-
 }
 
 h1 {
@@ -302,7 +301,7 @@ h1 {
 }
 
 
-/* Modal de mensaje */
+/* Modal de mensaje
 #modalMensaje {
     display: none;
     position: fixed;
@@ -315,7 +314,7 @@ h1 {
 
 #modalMensaje.abierto {
     display: flex;
-}
+} */
 
 #contenidoMensaje {
     background-color: #ffffff;

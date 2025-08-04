@@ -80,13 +80,6 @@ formulario.addEventListener("submit", function (eventoFormulario) {
     btn_reiniciar.style.display = "block";
 });
 
-window.addEventListener("resize", function () {
-    if (!juegoTerminado) {
-        ajustarTamCasilla();
-        iniciarJuego(filasActuales, columnasActuales, minasActuales);
-    }
-});
-
 function iniciarJuego(filas, columnasParam, totalMinas) {
     tablero.innerHTML = "";
     columnas = columnasParam;
@@ -312,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var correo = document.getElementById('correo');
     var mensaje = document.getElementById('mensaje');
 
-    var errorNombre = document.getElementById('errorNombre');
+    var errorNombre2 = document.getElementById('errorNombre2');
     var errorCorreo = document.getElementById('errorCorreo');
     var errorMensaje = document.getElementById('errorMensaje');
 
@@ -323,10 +316,10 @@ document.addEventListener('DOMContentLoaded', function () {
         nombre.value = '';
         correo.value = '';
         mensaje.value = '';
-        errorNombre.style.display = 'none';
+        errorNombre2.style.display = 'none';
         errorCorreo.style.display = 'none';
         errorMensaje.style.display = 'none';
-        errorNombre.textContent = '';
+        errorNombre2.textContent = '';
         errorCorreo.textContent = '';
         errorMensaje.textContent = '';
 
@@ -343,12 +336,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var valido = true;
       
-        if (nombre.value.trim().length < 1) {
-            errorNombre.textContent = 'El nombre debe tener al menos un caracteres.';
-            errorNombre.style.display = 'block';
+        if (nombre.value.trim().length <= 1) {
+            errorNombre2.textContent = 'El nombre debe tener al menos un caracteres.';
+            errorNombre2.style.display = 'block';
             valido = false;
         } else {
-            errorNombre.style.display = 'none';
+            errorNombre2.style.display = 'none';
         }
 
         var correoVal = correo.value.trim();
